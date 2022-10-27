@@ -2,9 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class CubeMovement : MonoBehaviour
 {
+    public UnityEvent shrinkStarted;
+    public UnityEvent shrinkCompleted;
     [SerializeField] private float startingHeight = 20.0f;
     [SerializeField] private float endingHeight = -10.0f;
     [SerializeField] private float speed = 10.0f;
@@ -45,9 +48,11 @@ public class CubeMovement : MonoBehaviour
             {
                 canShrink = false;
                 currentSpeed = speed;
+                shrinkCompleted.Invoke();
             }
         }
     }
+
     private void Move()
     {
         transform.Translate(Vector3.down * currentSpeed * Time.deltaTime);
@@ -62,12 +67,13 @@ public class CubeMovement : MonoBehaviour
             }
             transform.Translate(Vector3.down * currentSpeed * Time.deltaTime);
 
-            // stop moving when in position and allow shrinking
+            // stop moving when in position 
             if (transform.position.y < 0.01f)
             {
                 currentSpeed = 0f;
                 canShrink = true;
                 easeIn = false;
+                shrinkStarted.Invoke();
             }
         }
     }
