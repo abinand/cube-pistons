@@ -11,32 +11,57 @@ public class SwayMovement : MonoBehaviour
     [SerializeField] private float zBoundMax = 5.0f;
     [SerializeField] private float zBoundMin = 0.0f;
 
+    private bool isMovingAway;
+    private float currentSpeed;
+
+    private void Start()
+    {
+        // all pistons are moving away intitially
+        isMovingAway = true;
+        currentSpeed = speed;
+    }
+
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(direction * speed * Time.deltaTime, Space.World);
+        transform.Translate(direction * currentSpeed * Time.deltaTime, Space.World);
 
         // reverse movement after bounds
         if (transform.position.x > xBoundMax)
         {
-            transform.position = new Vector3(xBoundMax, transform.position.y , transform.position.z);
-            direction = -direction;
+            transform.position = new Vector3(xBoundMax, transform.position.y, transform.position.z);
+            ChangeDirection();
         }
         if (transform.position.x < xBoundMin)
         {
             transform.position = new Vector3(xBoundMin, transform.position.y, transform.position.z);
-            direction = -direction;
+            ChangeDirection();
         }
         if (transform.position.z < zBoundMin)
         {
             transform.position = new Vector3(transform.position.x, transform.position.y, zBoundMin);
-            direction = -direction;
+            ChangeDirection();
         }
         if (transform.position.z > zBoundMax)
         {
             transform.position = new Vector3(transform.position.x, transform.position.y, zBoundMax);
-            direction = -direction;
+            ChangeDirection();
         }
+    }
 
+    void ChangeDirection()
+    {
+        direction = -direction;
+        isMovingAway = !isMovingAway;
+
+        // speed up when moving towards the cube
+        if (!isMovingAway)
+        {
+            currentSpeed *= 2;
+        }
+        else
+        {
+            currentSpeed = speed;
+        }
     }
 }

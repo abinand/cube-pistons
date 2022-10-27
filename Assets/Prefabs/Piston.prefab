@@ -254,6 +254,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca2495e45b3b9024d89955789d3839f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
-  xBoundRight: 10
-  xBoundLeft: 0
+  direction: {x: 0, y: 0, z: 0}
+  speed: 4
+  xBoundMax: 5
+  xBoundMin: 0
+  zBoundMax: 5
+  zBoundMin: 0
