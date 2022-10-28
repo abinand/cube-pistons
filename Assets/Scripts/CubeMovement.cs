@@ -8,6 +8,7 @@ public class CubeMovement : MonoBehaviour
 {
     public UnityEvent shrinkStarted;
     public UnityEvent shrinkCompleted;
+
     [SerializeField] private float startingHeight = 20.0f;
     [SerializeField] private float endingHeight = -10.0f;
     [SerializeField] private float speed = 10.0f;
@@ -17,10 +18,13 @@ public class CubeMovement : MonoBehaviour
     private bool canShrink = false;
     private float timeElapsed = 0f;
     private float currentSpeed;
+    private AudioSource shrinkAudioClip;
+
     // Start is called before the first frame update
     void Start()
     {
         currentSpeed = speed;
+        shrinkAudioClip = GetComponent<AudioSource>();
         ResetCube();
     }
 
@@ -74,6 +78,7 @@ public class CubeMovement : MonoBehaviour
                 canShrink = true;
                 easeIn = false;
                 shrinkStarted.Invoke();
+                shrinkAudioClip.Play();
             }
         }
     }
